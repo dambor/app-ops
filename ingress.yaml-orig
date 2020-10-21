@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: httpbin
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.class: contour
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: httpbin
+    hosts:
+    - httpbin.59s.io
+  rules:
+  - host: httpbin.59s.io
+    http:
+      paths:
+      - backend:
+          serviceName: httpbin
+          servicePort: 80
